@@ -1,19 +1,17 @@
-FROM python:3.10-slim
+# Use official Python base image
+FROM python:3.11
 
-RUN apt-get update && apt-get install -y \
-    pandoc \
-    build-essential \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    && apt-get clean
-
+# Set working directory
 WORKDIR /app
+
+# Copy files
 COPY . .
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Expose port (Railway will bind this dynamically)
 EXPOSE 5000
+
+# Run the app
 CMD ["python", "app.py"]
